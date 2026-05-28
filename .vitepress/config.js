@@ -4,7 +4,6 @@ export default defineConfig({
     title: 'Nikogin Framework',
     description: 'WordPress plugin development framework',
     base: '/docs/',
-    outDir: 'dist',
 
     themeConfig: {
         logo: '/logo.svg',
