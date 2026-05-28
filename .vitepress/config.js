@@ -3,7 +3,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
     title: 'Nikogin Framework',
     description: 'WordPress plugin development framework',
-    base: '/',
+    base: '/docs/',
     outDir: 'dist',
 
     themeConfig: {
