@@ -30,6 +30,7 @@ export default defineConfig({
                     { text: 'Service Providers', link: '/essentials/service-providers' },
                     { text: 'Container',         link: '/essentials/container' },
                     { text: 'Routing',           link: '/essentials/routing' },
+                    { text: 'Modules',           link: '/essentials/modules' },
                 ],
             },
             {
@@ -75,6 +76,7 @@ export default defineConfig({
                     { text: 'make:job',            link: '/console/make-job' },
                     { text: 'make:shortcode',      link: '/console/make-shortcode' },
                     { text: 'make:provider',       link: '/console/make-provider' },
+                    { text: 'make:module',         link: '/console/make-module' },
                 ],
             },
         ],

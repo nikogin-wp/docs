@@ -20,6 +20,7 @@ lando php wp-content/plugins/my-plugin/nikogin make:{command} {ClassName} [optio
 | `make:job` | Job class | `app/Jobs/{Name}.php` |
 | `make:shortcode` | Shortcode class | `app/Shortcodes/{Name}.php` |
 | `make:provider` | Service provider | `app/Providers/{Name}.php` |
+| `make:module` | Module scaffold | `app/Modules/{Name}/` |
 
 ## Common options
 

@@ -16,8 +16,18 @@ my-plugin/
 │   │   └── Filter/             # WordPress filter listeners
 │   ├── Managers/
 │   │   ├── ListenerManager.php # Scans Listeners/ and registers them
-│   │   └── ProviderManager.php # Scans Providers/ and registers them
+│   │   ├── ProviderManager.php # Scans Providers/ and registers them
+│   │   └── ModuleManager.php   # Scans Modules/*/Providers/ and registers/boots them
 │   ├── Migrations/             # Database schema definitions
+│   ├── Modules/                # Optional — self-contained feature folders
+│   │   └── {ModuleName}/
+│   │       ├── Controllers/
+│   │       ├── Repository/
+│   │       ├── Listeners/
+│   │       ├── Providers/
+│   │       │   └── {ModuleName}ServiceProvider.php
+│   │       └── routes/
+│   │           └── routes.php
 │   ├── Providers/              # Service providers (wire up DI bindings)
 │   ├── Repository/
 │   │   ├── Db/                 # Custom DB table repositories
@@ -31,7 +41,8 @@ my-plugin/
 │
 ├── config/
 │   ├── app.php                 # Bootstrap class list
-│   └── config.php              # Framework config (namespace, slug, version, paths)
+│   ├── config.php              # Framework config (namespace, slug, version, paths)
+│   └── modules.php             # Enable/disable modules by #[AsModule] name
 │
 ├── resources/
 │   ├── ts/                     # TypeScript source files
