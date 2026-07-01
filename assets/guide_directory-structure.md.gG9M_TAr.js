@@ -1,4 +1,4 @@
-import{c as n,Q as a,j as p,m as e}from"./chunks/framework.DVkeSyfh.js";const g=JSON.parse('{"title":"Directory Structure","description":"","frontmatter":{},"headers":[],"relativePath":"guide/directory-structure.md","filePath":"guide/directory-structure.md"}'),i={name:"guide/directory-structure.md"};function l(t,s,r,o,c,d){return a(),p("div",null,[...s[0]||(s[0]=[e(`<h1 id="directory-structure" tabindex="-1">Directory Structure <a class="header-anchor" href="#directory-structure" aria-label="Permalink to &quot;Directory Structure&quot;">​</a></h1><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>my-plugin/</span></span>
+import{c as n,Q as a,j as p,m as e}from"./chunks/framework.DVkeSyfh.js";const h=JSON.parse('{"title":"Directory Structure","description":"","frontmatter":{},"headers":[],"relativePath":"guide/directory-structure.md","filePath":"guide/directory-structure.md"}'),l={name:"guide/directory-structure.md"};function i(r,s,t,o,c,d){return a(),p("div",null,[...s[0]||(s[0]=[e(`<h1 id="directory-structure" tabindex="-1">Directory Structure <a class="header-anchor" href="#directory-structure" aria-label="Permalink to &quot;Directory Structure&quot;">​</a></h1><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>my-plugin/</span></span>
 <span class="line"><span>├── app/                        # All PHP application code</span></span>
 <span class="line"><span>│   ├── Bootstrap.php           # Entry point — reads config/app.php and boots each class</span></span>
 <span class="line"><span>│   ├── Bootstraps/             # Boot classes (Loader, Router, Assets, Activator…)</span></span>
@@ -13,8 +13,18 @@ import{c as n,Q as a,j as p,m as e}from"./chunks/framework.DVkeSyfh.js";const g=
 <span class="line"><span>│   │   └── Filter/             # WordPress filter listeners</span></span>
 <span class="line"><span>│   ├── Managers/</span></span>
 <span class="line"><span>│   │   ├── ListenerManager.php # Scans Listeners/ and registers them</span></span>
-<span class="line"><span>│   │   └── ProviderManager.php # Scans Providers/ and registers them</span></span>
+<span class="line"><span>│   │   ├── ProviderManager.php # Scans Providers/ and registers them</span></span>
+<span class="line"><span>│   │   └── ModuleManager.php   # Scans Modules/*/Providers/ and registers/boots them</span></span>
 <span class="line"><span>│   ├── Migrations/             # Database schema definitions</span></span>
+<span class="line"><span>│   ├── Modules/                # Optional — self-contained feature folders</span></span>
+<span class="line"><span>│   │   └── {ModuleName}/</span></span>
+<span class="line"><span>│   │       ├── Controllers/</span></span>
+<span class="line"><span>│   │       ├── Repository/</span></span>
+<span class="line"><span>│   │       ├── Listeners/</span></span>
+<span class="line"><span>│   │       ├── Providers/</span></span>
+<span class="line"><span>│   │       │   └── {ModuleName}ServiceProvider.php</span></span>
+<span class="line"><span>│   │       └── routes/</span></span>
+<span class="line"><span>│   │           └── routes.php</span></span>
 <span class="line"><span>│   ├── Providers/              # Service providers (wire up DI bindings)</span></span>
 <span class="line"><span>│   ├── Repository/</span></span>
 <span class="line"><span>│   │   ├── Db/                 # Custom DB table repositories</span></span>
@@ -28,7 +38,8 @@ import{c as n,Q as a,j as p,m as e}from"./chunks/framework.DVkeSyfh.js";const g=
 <span class="line"><span>│</span></span>
 <span class="line"><span>├── config/</span></span>
 <span class="line"><span>│   ├── app.php                 # Bootstrap class list</span></span>
-<span class="line"><span>│   └── config.php              # Framework config (namespace, slug, version, paths)</span></span>
+<span class="line"><span>│   ├── config.php              # Framework config (namespace, slug, version, paths)</span></span>
+<span class="line"><span>│   └── modules.php             # Enable/disable modules by #[AsModule] name</span></span>
 <span class="line"><span>│</span></span>
 <span class="line"><span>├── resources/</span></span>
 <span class="line"><span>│   ├── ts/                     # TypeScript source files</span></span>
@@ -45,4 +56,4 @@ import{c as n,Q as a,j as p,m as e}from"./chunks/framework.DVkeSyfh.js";const g=
 <span class="line"><span>├── nikogin.php                 # WordPress plugin header</span></span>
 <span class="line"><span>├── vite.config.js</span></span>
 <span class="line"><span>├── tsconfig.json</span></span>
-<span class="line"><span>└── package.json</span></span></code></pre></div>`,2)])])}const h=n(i,[["render",l]]);export{g as __pageData,h as default};
+<span class="line"><span>└── package.json</span></span></code></pre></div>`,2)])])}const g=n(l,[["render",i]]);export{h as __pageData,g as default};
