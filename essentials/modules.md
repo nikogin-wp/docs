@@ -68,11 +68,13 @@ class AsModule
 }
 ```
 
-A `Providers/*ServiceProvider.php` file with no `#[AsModule]` attribute is silently skipped — it's never registered, booted, or treated as an error.
+A ServiceProvider inside a module with no `#[AsModule]` attribute is silently skipped — it's never registered, booted, or treated as an error.
 
 ## Auto-discovery
 
-`ModuleManager` scans `app/Modules/*/Providers/*ServiceProvider.php` — same convention `ProviderManager` uses for `app/Providers/*.php`. Nothing needs to be registered by hand. It runs from `app/Bootstraps/Loader.php`, immediately after the regular `ProviderManager`:
+`ModuleManager` recursively scans each `app/Modules/{Module}/` folder for a `ServiceProvider` carrying `#[AsModule]` — `Providers/CrmServiceProvider.php` is the convention `make:module` uses, but the class can live anywhere inside the module. Nothing needs to be registered by hand.
+
+Listeners inside an enabled module (e.g. `app/Modules/Crm/Listeners/`) are discovered by `ListenerManager` too. A disabled module's listeners are skipped, together with its routes. It runs from `app/Bootstraps/Loader.php`, immediately after the regular `ProviderManager`:
 
 ```php
 (new ProviderManager())->register();
@@ -115,14 +117,20 @@ Add an entry to `config/modules.php`, keyed by the module's `#[AsModule]` name (
 ```php
 // config/modules.php
 return [
-    'crm' => false, // uncomment to disable a module without deleting it
+    'modules' => [
+        'crm' => false, // disable a module without deleting it
+    ],
 ];
 ```
 
 Resolution order:
 
-1. An explicit key in `config/modules.php` wins, whatever its value
+1. An entry under `modules` in `config/modules.php` wins. `true`/`false` and boolean-like strings (`'false'`, `'0'`, `'off'`, ...) are accepted; any other value is ignored
 2. Otherwise, the `enabled` value on `#[AsModule]` is used (defaults to `true`)
+
+::: tip Upgrading
+The old flat format (`return ['crm' => false];`) still works, but only for real booleans. A module named after another config key such as `slug` or `namespace` is no longer switched on by that key's value.
+:::
 
 A disabled module's ServiceProvider is never registered or booted, and its `routes/routes.php` is never loaded.
 

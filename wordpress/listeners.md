@@ -55,13 +55,18 @@ class TheContentListener extends Listener
 
 ## Auto-discovery
 
-`ListenerManager` recursively scans `app/Listeners/` — any class that extends `Listener` and has the `#[AsListener]` attribute is registered automatically. No manual registration needed.
+`ListenerManager` recursively scans the whole `app/` directory — any concrete class that extends `Listener` and has the `#[AsListener]` attribute is registered automatically, no matter which folder it lives in. No manual registration needed.
 
 ```
-app/Listeners/
-├── Action/   ← scanned
-└── Filter/   ← scanned
+app/
+├── Listeners/
+│   ├── Action/        ← scanned
+│   └── Filter/        ← scanned
+├── Services/Billing/  ← scanned too
+└── Modules/Crm/       ← scanned only while the module is enabled
 ```
+
+Only files that look like PSR-4 classes are loaded: lowercase folders (such as a module's `routes/`) and plain scripts are never included, and only files that mention `AsListener` are autoloaded.
 
 ::: warning
 The `handle()` method receives arguments via variadic spread (`...$args`). Access them by index: `$args[0]`, `$args[1]`, etc.
