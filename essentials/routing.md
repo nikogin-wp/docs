@@ -93,7 +93,7 @@ Router::middleware(AuthMiddleware::class, '/articles', [
 ```php
 class AuthMiddleware implements Middleware
 {
-    public function verify(\WP_REST_Request $request): bool|\WP_Error
+    public static function verify(\WP_REST_Request $request): bool|\WP_Error
     {
         return is_user_logged_in() ?: new \WP_Error('unauthorized', 'Login required.', ['status' => 401]);
     }

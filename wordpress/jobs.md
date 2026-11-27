@@ -56,7 +56,7 @@ class SendEmailJob extends Job
 
 ## Hook naming
 
-The registered hook is `ng_{getActionHook()}_job`. Action Scheduler fires `do_action()` for the hook when the job runs, so the same `add_action` registration the `Job` constructor creates is what Action Scheduler calls.
+The registered hook is `{prefix}_{getActionHook()}_job`, where `prefix` is `Config::get('prefix')` (`NIKOGIN_PREFIX`, default `ng`). Action Scheduler fires `do_action()` for the hook when the job runs, so the same `add_action` registration the `Job` constructor creates is what Action Scheduler calls.
 
 ```php
 // SendEmailJob registers:
@@ -91,9 +91,37 @@ as_schedule_recurring_action(time(), HOUR_IN_SECONDS, 'ng_send_email_job', [$use
 as_unschedule_action('ng_send_email_job', [$userId]);
 ```
 
+## Scheduling with `#[AsCron]`
+
+Add `#[AsCron]` to a job and it is hooked and scheduled with **WP-Cron** automatically. No ServiceProvider entry is needed. `CronManager` finds these jobs anywhere in `app/` (and in enabled modules) on `plugins_loaded`.
+
+```php
+use Nikogin\Framework\Attributes\AsCron;
+
+#[AsCron(recurrence: 'daily')]
+class CleanupJob extends Job { /* ... */ }
+
+#[AsCron(recurrence: 'hourly', when: 'tomorrow 03:00')]
+class SyncJob extends Job { /* ... */ }
+
+#[AsCron(single: true, when: '+10 minutes')]
+class WelcomeJob extends Job { /* ... */ }
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `recurrence` | `'daily'` | Any registered schedule: `hourly`, `twicedaily`, `daily`, `weekly` or one added via `cron_schedules` |
+| `when` | `'now'` | First run, anything `strtotime()` accepts |
+| `single` | `false` | Run once instead of repeating |
+
+- Changing `recurrence` reschedules the job on the next request.
+- A single job is scheduled only once; an option remembers it, so it does not come back after running.
+- On plugin deactivation every `#[AsCron]` job is unscheduled.
+- An unknown `recurrence` or an invalid `when` throws a `RuntimeException`.
+
 ## Registering a job
 
-Jobs must be instantiated to register their `add_action` hook. Do this via a `ServiceProvider`:
+Jobs without `#[AsCron]` must be instantiated to register their `add_action` hook. Do this via a `ServiceProvider`:
 
 ```php
 protected array $services = [
@@ -102,6 +130,8 @@ protected array $services = [
 ```
 
 The service provider calls `Container::get(SendEmailJob::class)` which calls `new SendEmailJob()`, registering the hook immediately on `plugins_loaded`.
+
+The hook is added only once per job class, so resolving the job again (`Container::get(SendEmailJob::class)` builds a new instance each time) does not make it run twice. Use `$job->hookName()` to get the full hook name when dispatching.
 
 ## Monitoring jobs
 

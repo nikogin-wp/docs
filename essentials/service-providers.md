@@ -46,7 +46,9 @@ public function priority(): int
 
 ## Auto-discovery
 
-`ProviderManager` scans `app/Providers/*.php` automatically — any class that extends `Provider` is registered. You do not need to list providers anywhere.
+`ProviderManager` scans `app/Providers/` (including subfolders) automatically — any concrete class that extends `Provider` is registered. You do not need to list providers anywhere.
+
+After all providers have run, the plugin version (`Config::get('version')`) is stored in the `{slug}_version` option. Migration providers (`MProvider`) therefore run their migrations once per version bump, not on every request. If a provider throws, the version is not stored and migrations run again on the next request.
 
 ## How ServiceProvider works internally
 
